@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {WImage,WCanvas,WTitle,WSidemenu,WLayout,WTableColImage,WButton,WTextField,WSelectField,WSelectFieldOption,WForm,WTable,WTableCol,WRatingField,WCheckRadio } from 'woco'
-import 'woco/dist/index.css'
+import {WImage,WCanvas,WTitle,WSidemenu,WLayout,WTableColImage,WButton,WTextField,WSelectField,WSelectFieldOption,WForm,WTable,WTableCol,WRatingField,WCheckRadio } from 'wocom'
+import 'wocom/dist/index.css'
 
 const App = () => {
   const [items, setItems] = useState([]);

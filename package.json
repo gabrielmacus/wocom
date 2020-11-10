@@ -87,9 +87,9 @@
     "styled-components": "^5.2.0"
   },
   "bugs": {
-    "url": "https://github.com/gabrielmacus/woco/issues"
+    "url": "https://github.com/gabrielmacus/wocom/issues"
   },
-  "homepage": "https://github.com/gabrielmacus/woco#readme",
+  "homepage": "https://github.com/gabrielmacus/wocom#readme",
   "directories": {
     "example": "example"
   },
