@@ -18,7 +18,7 @@ export default function WTableColImage(props:TableColImageProps) {
     }
 
     return (
-        <WTableCol {...props} body={Body}/>
+        <WTableCol {...props} body={(props)=>Body(props?.value)}/>
     )
 }
 

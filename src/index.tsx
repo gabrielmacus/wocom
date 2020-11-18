@@ -1,5 +1,6 @@
 import './styles.css';
 
+
 export {default as WButton} from './components/WButton';
 export {default as WField} from './components/WField';
 export {default as WSelectField} from './components/WSelectField';
@@ -17,3 +18,11 @@ export {default as WSidemenu} from './components/WSidemenu';
 export {default as WLayout} from './components/WLayout';
 export {default as WTitle} from './components/WTitle';
 export {default as WCanvas} from './components/WCanvas';
+export {default as WPopup} from './components/WPopup';
+export {default as WMenu} from './components/WMenu';
+export {default as WList} from './components/WList';
+export {default as WTableColActions} from './components/WTableColActions';
+export {default as renderToast} from './components/WToast';
+
+
+export {default as DefaultTheme} from './themes/DefaultTheme';

@@ -22,8 +22,8 @@ font-size: 18px;
 justify-content: center;
 display: flex;
 align-items: center;
-background-color: #2c63ff;
-color: white;
+background-color: ${props => props.theme.secondaryBackground};
+color:  ${props => props.theme.secondaryForeground};
 border-radius: 4px;
 `;
 
@@ -34,7 +34,8 @@ padding-right:15px;
 cursor:pointer;
 &:hover
 {
-    background-color:#2d59d6;
+    background-color:${props => props.theme.secondaryDark1Background};
+    color:${props => props.theme.secondaryDark1Foreground};
 }
 transition:all 0.2s;
 `;
@@ -53,7 +54,8 @@ pointer-events:none;
 `;
 
 const PageNumber = styled(PaginationControl)<PageNumberStyleProps>`
-background-color:${props => props.active ? '#26418f':'inherit'};
+background-color:${props => props.active ? props.theme.secondaryDark2Background:'inherit'};
+color:${props => props.active ? props.theme.secondaryDark2Foreground:'inherit'};
 `;
 
 
@@ -65,11 +67,11 @@ export interface PaginationProps {
     onClickPage:(page:number) => any
 
 }
-  
+
 
 
 export default function WPagination(props:PaginationProps) {
-  
+
   function getPagesArray():number[]
   {
     let padding = props.padding || 2;
@@ -91,7 +93,7 @@ export default function WPagination(props:PaginationProps) {
 
     return pages;
   }
-    
+
   return (
     <Pagination className={props.className}>
         <PaginationArrow onClick={()=> props.onClickPage(props.page - 1)} disabled={props.page == 1}><FontAwesomeIcon icon={faChevronCircleLeft} /></PaginationArrow>
@@ -100,7 +102,7 @@ export default function WPagination(props:PaginationProps) {
         )}
         <PaginationArrow onClick={()=> props.onClickPage(props.page + 1)} disabled={props.page == props.totalPages}><FontAwesomeIcon icon={faChevronCircleRight} /></PaginationArrow>
     </Pagination>
-    
+
   );
 }
 

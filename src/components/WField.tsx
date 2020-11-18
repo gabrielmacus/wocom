@@ -16,7 +16,6 @@ const Label = styled.label`
 box-sizing:border-box;
 font-size: 16px;
 color: #555;
-text-transform: capitalize;
 display: block;
 margin-bottom: 5px;
 `
@@ -109,7 +108,6 @@ export default function WField(props:FieldProps) {
 
       if(!_.isEqual(lastValue,props.value))
       {
-        console.log("VALIDATE!")
         validate();
       }
     }

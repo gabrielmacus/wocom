@@ -18,6 +18,7 @@ display:none;
 `;
 
 export const Col =styled(Header).attrs({as:'td'})<ColStyleProps>`
+vertical-align: middle;
 &:not(:last-child){
     padding-right: 20px;
 }
@@ -48,26 +49,33 @@ margin-bottom: 5px;
 export interface TableColProps
 {
  header:React.ReactNode | string,
- prop:string,
+ prop?:string,
  width:string,
  sortable?:boolean,
- body?:(value?:any,row?:any) => React.ReactNode
+ body?:(params?:{value?:any,row?:any}) => React.ReactNode
 }
 
 export default function WTableCol(props:TableColProps) {
     const tableContext = useContext(TableContext);
     useEffect(()=>{
-        tableContext?.setHeader({label:props.header,width:props.width,sortable:props.sortable,prop:props.prop});
+        if(props.prop)
+        {
+          tableContext?.setHeader({label:props.header,width:props.width,sortable:props.sortable,prop:props.prop});
+        }
     },[]);
 
     return (
     <TableRowContext.Consumer>
         {context =>
-        <Col  breakpoint={tableContext?.breakpoint} width={props.width}>
-            <MobileHeader>{props.header}&nbsp;&nbsp;{tableContext?.renderSortIcon({label:props.header,width:props.width,sortable:props.sortable,prop:props.prop})}</MobileHeader>
-            {props.body?.(context?.item[props.prop],context?.item) || context?.item[props.prop]}
+          <React.Fragment>
 
-        </Col>
+            <Col  breakpoint={tableContext?.breakpoint} width={props.width}>
+              <MobileHeader>{props.header}&nbsp;&nbsp;{props.prop && tableContext?.renderSortIcon({label:props.header,width:props.width,sortable:props.sortable,prop:props.prop})}</MobileHeader>
+              {props.prop ? (props.body?.({value:context?.item[props.prop],row:context?.item}) || context?.item[props.prop]) : props.body?.({value:null,row:context?.item})  }
+
+            </Col>
+
+          </React.Fragment>
         }
     </TableRowContext.Consumer>
     )

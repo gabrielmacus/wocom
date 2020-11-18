@@ -39,7 +39,8 @@ width:350px;
 box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.4);
 //transition:all 0.2s;
 z-index: 1000;
-background:#5533ff;
+background:${props => props.theme.primaryBackground};
+color: ${props => props.theme.primaryForeground};
 `;
 
 const Sidebar = styled.div`

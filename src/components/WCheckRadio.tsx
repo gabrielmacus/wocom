@@ -7,6 +7,7 @@ import WField, { FieldProps} from './WField';
 import { useId } from "react-id-generator";
 
 const CheckRadio = styled.div`
+user-select:none;
 display: flex;
 align-items: center;
 display: flex;
@@ -65,10 +66,10 @@ export default function WCheckRadio(props:ValidationErrorsProps) {
             setValue(getOffValue());
         }
     },[props.checked]);
-    
+
     function onChange()
     {
-        
+
         if(value == getOnValue())
         {
             setValue(getOffValue());
@@ -86,10 +87,10 @@ export default function WCheckRadio(props:ValidationErrorsProps) {
             <CheckRadio id={htmlId} onClick={onChange}>
                 <FontAwesomeIcon icon={faCheckSquare} />
                 {value == getOnValue()?
-                    <FontAwesomeIcon icon={faCheckSquare} /> :   
-                    <FontAwesomeIcon icon={faSquare}  /> 
+                    <FontAwesomeIcon icon={faCheckSquare} /> :
+                    <FontAwesomeIcon icon={faSquare}  />
                 }
-                
+
             </CheckRadio>
         </WField>
     )

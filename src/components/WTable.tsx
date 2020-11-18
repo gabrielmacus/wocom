@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort, faSortAmountDown,faInbox,faExclamationTriangle, faSortAmountUp } from '@fortawesome/free-solid-svg-icons';
 import WPagination from './WPagination';
+//import WCheckRadio from './WCheckRadio';
+//import WTableCol from './WTableCol';
 
 import _ from 'lodash';
 
@@ -24,7 +26,7 @@ export const Header =styled.th`
 text-align:left;
 padding-top: 16px;
 padding-bottom: 16px;
-
+vertical-align:middle;
 &:last-child
 {
     padding-right:40px;
@@ -35,13 +37,12 @@ padding-bottom: 16px;
     padding-left: 40px;
 }
 `;
-
+//max-height:${(props)=>props.maxHeight || 'inherit'};
 export const TableContainer = styled.div<TableContainerStyleProps>`
-box-shadow: 0 0px 25px 0px rgba(0,0,0,0.25);
-border-radius:10px;
+
 position:relative;
-overflow:${(props) => props.loading ? 'hidden' : 'auto'};
-max-height:${(props)=>props.maxHeight || 'inherit'};
+overflow:${(props) => props.loading ? 'hidden' : 'inherit'};
+
 
 ${props => props.breakpoint && `
 @media all and (max-width:${props.breakpoint})
@@ -94,8 +95,8 @@ top:0;
 `;
 
 export const Head = styled.thead`
-background:#5533ff;
-color:white;
+background:${props => props.theme.primaryBackground};
+color: ${props => props.theme.primaryForeground};
 box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.2);
 font-weight:bold;
 
@@ -110,6 +111,7 @@ export const Row =styled.tr`
 
 
 export const DataRow= styled(Row)<DataRowStyleProps>`
+
 &:nth-child(even)
 {
     background:#eeeeee;
@@ -122,6 +124,10 @@ export const Data =styled.td`
 `;
 
 export const TableTitle = styled.div`
+
+
+border-top-left-radius:10px;
+border-top-right-radius:10px;
 font-size: 25px;
 padding-left: 40px;
 padding-right: 40px;
@@ -132,7 +138,7 @@ color: white;
 `;
 export const HeaderContainer = styled.div`
 position:sticky;
-top:0;`;
+top:60px;`;
 
 export const EmptyTableMessage = styled.td`
 padding: 20px;
@@ -165,7 +171,10 @@ bottom:0;
 
 export const MainContainer = styled.div`
 position:relative;
+box-shadow: 0 0px 25px 0px rgba(0,0,0,0.25);
 `;
+
+
 
 interface BasePaginationConfig {
     padding?:number,
@@ -197,9 +206,10 @@ interface Header
 
 interface TableProps
 {
+  selectionMode?:('single'|'multiple'),
   children:React.ReactNode,
   items:any[],
-  maxHeight?:string,
+  //maxHeight?:string,
   breakpoint?:string,
   title?:string,
   sort?:string,
@@ -341,7 +351,7 @@ export default function WTable(props:TableProps) {
 
     return (
     <MainContainer>
-      <TableContainer breakpoint={props.breakpoint} maxHeight={props.maxHeight}>
+      <TableContainer breakpoint={props.breakpoint}>
         <TableContext.Provider value={{sortOrder,breakpoint:props.breakpoint, setHeader,renderSortIcon}}>
           <HeaderContainer>
             {props.title && <TableTitle  role="heading" aria-level={3} >{props.title}</TableTitle>}
@@ -371,9 +381,17 @@ export default function WTable(props:TableProps) {
               </Body>
               :
               <Body >
+
                 {getData().length > 0 ?
                   getData().map((item,index)=>(
                     <DataRow key={item._id || item.id || index}>
+
+
+                      {/*typeof props.selectionMode !== 'undefined' &&
+                      <Header style={{width:'12%'}}>
+                        {props.selectionMode === 'multiple' && <WCheckRadio type={'checkbox'} /> }
+                      </Header>*/
+                      }
                       <TableRowContext.Provider value={{item}}>
                         {props.children}
                       </TableRowContext.Provider>
@@ -409,9 +427,9 @@ export default function WTable(props:TableProps) {
       {props.loading &&
       <Loading>
         <svg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
-          <g fill="none" fill-rule="evenodd">
-            <g transform="translate(1 1)" stroke-width="2">
-              <circle stroke-opacity=".5" cx="18" cy="18" r="18"/>
+          <g fill="none" fillRule="evenodd">
+            <g transform="translate(1 1)" strokeWidth="2">
+              <circle strokeOpacity=".5" cx="18" cy="18" r="18"/>
               <path d="M36 18c0-9.94-8.06-18-18-18">
                 <animateTransform
                   attributeName="transform"
