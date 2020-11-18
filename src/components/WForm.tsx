@@ -20,24 +20,32 @@ export interface FormProps {
 
 
 //export const FormContext = createContext<{setValidationStatus(fieldLabel:string, validationStatus:(undefined | true | ValidationError[])):any} | undefined>(undefined);//createContext<Partial<SelectFieldOptionProps>>({});
-export const FormContext = createContext< {setFormField:(fieldLabel:string,validate:()=>true | ValidationError[])=>void} | undefined >(undefined);//createContext<Partial<SelectFieldOptionProps>>({});
+export const FormContext = createContext< {setFormField:(fieldLabel:string,validate:()=>true | ValidationError[],scrollToField:()=>void)=>void} | undefined >(undefined);//createContext<Partial<SelectFieldOptionProps>>({});
 
 export default function WField(props:FormProps) {
 
   //const [formFields, setFormFields] = useState<{[key: string]: {validate:()=>true | ValidationError[]} }>({});
-  let formFields = useRef<{ [key:string] : {validate():true | ValidationError[]} }>({});
+  let formFields = useRef<{ [key:string] : {validate():true | ValidationError[],scrollToField:()=>void} }>({});
 
   function onSubmit(event:FormEvent)
   {
     event.preventDefault();
     let validationError = false;
+    let scrolledToFirstField = false;
+
     for(const key in formFields.current)
     {
       let field = formFields.current[key];
       let validationStatus =  field.validate();
+
       if(validationStatus !== true)
       {
         validationError = true;
+        if(!scrolledToFirstField)
+        {
+          field.scrollToField();
+          scrolledToFirstField = true;
+        }
       }
     }
     if(!validationError)
@@ -47,9 +55,9 @@ export default function WField(props:FormProps) {
   }
 
 
-  function setFormField(fieldLabel:string,validate:()=>true | ValidationError[]):void
+  function setFormField(fieldLabel:string,validate:()=>true | ValidationError[],scrollToField:()=>void):void
   {
-    formFields.current[fieldLabel] = {validate};
+    formFields.current[fieldLabel] = {validate,scrollToField};
   }
 
   return (

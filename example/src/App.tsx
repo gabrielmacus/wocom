@@ -45,6 +45,9 @@ const App = () => {
     setLoadingItems(false);
   }
 
+  function onSubmit() {
+    alert('submit')
+  }
 
   function ProductNameCol(value:any)
   {
@@ -79,6 +82,10 @@ const App = () => {
         {/*style={{maxWidth:"900px",margin:"auto",width:"90%"}}*/}
 
             <WTitle>Demo title</WTitle>
+            <WForm onSubmit={onSubmit}>
+              <WTextField rules={{}} onChange={()=>console.log("CHANGE")} label="Apellido"></WTextField>
+              <WButton type="submit" label="Aceptar"></WButton>
+            </WForm>
             <WForm>
               {/*style={{width:"100%",display:"grid",gridTemplateColumns:"1r",gridGap:"1.5rem"}}*/}
 

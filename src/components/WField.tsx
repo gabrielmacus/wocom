@@ -61,18 +61,24 @@ export default function WField(props:FieldProps) {
     }
   });
   const formContext = useContext(FormContext);
+
   const [validationStatus, setValidationStatus] = useState<ValidationError[] | true | undefined>();
-  const [lastValue, setLastValue] = useState<any>()
+  const [lastValue, setLastValue] = useState<any>(undefined)
+
   const didMountRef = useRef(false);
 
   //const [value, setValue]  = useState<any>(null);
 
+  function scrollToField() {
+    document.getElementById(props.labelId)?.parentElement?.scrollIntoView();
+  }
+
   function validate():(true | ValidationError[])
   {
-    let value = props.value;
+    let value =  typeof props.value === 'undefined' ? null : props.value;
     let rules = props.rules;
 
-    if(rules && typeof value !== "undefined")
+    if(rules /*&& typeof value !== "undefined"*/)
     {
 
       /*
@@ -102,7 +108,7 @@ export default function WField(props:FieldProps) {
   }
   useEffect(()=>{
 
-    formContext?.setFormField(props.labelId,validate);
+    formContext?.setFormField(props.labelId,validate,scrollToField);
     if(didMountRef.current)
     {
 
@@ -110,12 +116,12 @@ export default function WField(props:FieldProps) {
       {
         validate();
       }
+      setLastValue(props.value);
     }
     else
     {
       didMountRef.current = true;
     }
-    setLastValue(props.value);
   },[props.value]);
 
   return (
