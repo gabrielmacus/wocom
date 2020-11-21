@@ -18,6 +18,8 @@ const App = () => {
   const [canvasLayer,setCanvasLayer] = useState<string>("f2");
   const [popupOpened, setPopupOpened] = useState<boolean>(false);
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
+  const [item,setItem] = useState<{name?:string}>({});
+
   let toastCounter = 0;
   function showToast()
   {
@@ -83,7 +85,7 @@ const App = () => {
 
             <WTitle>Demo title</WTitle>
             <WForm onSubmit={onSubmit}>
-              <WTextField rules={{}} onChange={()=>console.log("CHANGE")} label="Apellido"></WTextField>
+              <WTextField rules={{}} value={item.name}  onChange={(val)=>setItem({...item,...{name:val?.toString()}})} label="Name"></WTextField>
               <WButton type="submit" label="Aceptar"></WButton>
             </WForm>
             <br/>

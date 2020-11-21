@@ -70,13 +70,13 @@ export default function WTextField(props:TextFieldProps) {
       }
       let {target} = event;
       debounceTimeout.current = setTimeout(function (){
-        props.onChange?.(target.value);
+        props.onChange?.(target.value === "" ? null : target.value);
       },props.debounce);
 
     }
     else
     {
-      props.onChange?.(event.target.value);
+      props.onChange?.(event.target.value === "" ? null : event.target.value);
     }
 
     if(!props.validateOnBlur)
