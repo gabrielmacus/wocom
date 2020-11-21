@@ -14,6 +14,10 @@ interface StyledButtonStyleProps
   styleType?:('unlevated' | 'outlined' | 'flat')
 }
 
+interface ButtonLabelStyleProps
+{
+  withIcon?:boolean
+}
 
 const Container = styled.div`
 position:relative;
@@ -28,7 +32,7 @@ border: 0px transparent;
 border-radius: 3px;
 transition: all 0.2s;
 cursor:pointer;
-padding: 12px 50px;
+padding: 12px 20px;
 text-align: center;
 display: inline-block;
 font-size: 17px;
@@ -166,9 +170,11 @@ ${props => {
 
 `;
 
-const ButtonLabel = styled.span`
+const ButtonLabel = styled.span<ButtonLabelStyleProps>`
 position:relative;
-display:block;
+display: flex;
+justify-content: ${props => props.withIcon ? 'space-between':'center'};
+
 `;
 
 export interface ButtonProps {
@@ -194,7 +200,11 @@ export default function WButton(props:ButtonProps) {
   return (
     <Container className={props.className}>
       <StyledButton fgColor={props.fgColor} bgColor={props.bgColor} fgHoverColor={props.fgHoverColor} bgHoverColor={props.bgHoverColor}  styleType={props.styleType} selected={props.selected} type={props.type || 'button'} onMouseDown={props.onMouseDown} onClick={props.onClick}>
-        <ButtonLabel>{props.label}</ButtonLabel>
+        <ButtonLabel withIcon={Boolean(props.iconLeft || props.iconRight)}>
+          {props.iconLeft}
+          {props.label}
+          {props.iconRight}
+        </ButtonLabel>
       </StyledButton>
       {props.children}
     </Container>

@@ -138,7 +138,7 @@ const App = () => {
             <br/><br/>
 
 
-            <WButton label={"Show toast"} onClick={showToast} />
+            <WButton iconLeft={<FontAwesomeIcon icon={faCheck} />} iconRight={<FontAwesomeIcon icon={faUserEdit} />} label={"Show toast"} onClick={showToast} />
             <br />
             <WButton styleType={"unlevated"} label={"Unelevated"} />
             <br />
@@ -146,8 +146,8 @@ const App = () => {
             <br />
             <WButton bgColor={"successBg"} fgColor={"successFg"} styleType={"outlined"} label={"Outlined"} />
             <br />
-            <WButton onClick={()=>setMenuOpened(!menuOpened)} selected={menuOpened} label={"Open menu"}>
-              <WMenu onClose={()=>setMenuOpened(false)} position={"full-width-bottom"} opened={menuOpened}>
+            <WButton onClick={(e)=>{setMenuOpened(!menuOpened);e.preventDefault();}} selected={menuOpened} label={"Open menu"}>
+              <WMenu  onClose={()=>setMenuOpened(false)} position={"full-width-bottom"} opened={menuOpened}>
                 <WList
                   listItems={[
                     {label:"Option 1"},

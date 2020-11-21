@@ -54,7 +54,7 @@ export default function WMenu(props:WMenuProps) {
 
 
   return (
-    <OutsideClickHandler onOutsideClick={()=>{ props.onClose?.() }}>
+    <OutsideClickHandler onOutsideClick={(e)=>{ props.onClose?.(); e.stopPropagation(); }}>
       {
         props.opened &&
         <Menu position={props.position}>
