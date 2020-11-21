@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 //@ts-ignore
 import α from 'color-alpha'
+import OutsideClickHandler from 'react-outside-click-handler';
 
 
 interface StyledButtonStyleProps
@@ -182,6 +183,7 @@ export interface ButtonProps {
     label:string,
     className?:string,
     onClick?(event:React.MouseEvent):any,
+    onClickOutside?(event:React.MouseEvent):any,
     onMouseDown?(event:React.MouseEvent):any,
     type?:('button'|'submit'),
     selected?:boolean,
@@ -198,16 +200,18 @@ export default function WButton(props:ButtonProps) {
 
 
   return (
-    <Container className={props.className}>
-      <StyledButton fgColor={props.fgColor} bgColor={props.bgColor} fgHoverColor={props.fgHoverColor} bgHoverColor={props.bgHoverColor}  styleType={props.styleType} selected={props.selected} type={props.type || 'button'} onMouseDown={props.onMouseDown} onClick={props.onClick}>
-        <ButtonLabel withIcon={Boolean(props.iconLeft || props.iconRight)}>
-          {props.iconLeft}
-          {props.label}
-          {props.iconRight}
-        </ButtonLabel>
-      </StyledButton>
-      {props.children}
-    </Container>
+    <OutsideClickHandler onOutsideClick={(e)=>props.onClickOutside?.(e)}>
+      <Container className={props.className}>
+        <StyledButton fgColor={props.fgColor} bgColor={props.bgColor} fgHoverColor={props.fgHoverColor} bgHoverColor={props.bgHoverColor}  styleType={props.styleType} selected={props.selected} type={props.type || 'button'} onMouseDown={props.onMouseDown} onClick={props.onClick}>
+          <ButtonLabel withIcon={Boolean(props.iconLeft || props.iconRight)}>
+            {props.iconLeft}
+            {props.label}
+            {props.iconRight}
+          </ButtonLabel>
+        </StyledButton>
+        {props.children}
+      </Container>
+    </OutsideClickHandler>
   );
 }
 

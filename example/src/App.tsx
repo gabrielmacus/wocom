@@ -146,8 +146,8 @@ const App = () => {
             <br />
             <WButton bgColor={"successBg"} fgColor={"successFg"} styleType={"outlined"} label={"Outlined"} />
             <br />
-            <WButton onClick={(e)=>{setMenuOpened(!menuOpened);e.preventDefault();}} selected={menuOpened} label={"Open menu"}>
-              <WMenu  onClose={()=>setMenuOpened(false)} position={"full-width-bottom"} opened={menuOpened}>
+            <WButton onClickOutside={()=>setMenuOpened(false)} onClick={()=>setMenuOpened(!menuOpened)} selected={menuOpened} label={"Open menu"}>
+              <WMenu   position={"full-width-bottom"} opened={menuOpened}>
                 <WList
                   listItems={[
                     {label:"Option 1"},

@@ -4,6 +4,7 @@ import WList,{ListItem} from './WList';
 import WMenu from './WMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
+import OutsideClickHandler from 'react-outside-click-handler';
 
 
 interface TableColActionsProps
@@ -25,14 +26,16 @@ export default function WTableColActions(props:TableColActionsProps) {
 
 
   return (
+    <OutsideClickHandler onOutsideClick={()=>setMenuOpened(false)}>
     <Actions onClick={()=>setMenuOpened(!menuOpened)} >
       <FontAwesomeIcon   style={{textAlign:'right'}} icon={faEllipsisV} />
-      <WMenu onClose={()=>setMenuOpened(false)} position={"right-bottom"} opened={menuOpened}>
+      <WMenu position={"right-bottom"} opened={menuOpened}>
         <WList
           listItems={props.actions}
         />
       </WMenu>
     </Actions>
+    </OutsideClickHandler>
   )
 }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import OutsideClickHandler from 'react-outside-click-handler';
 
 interface MenuStyleProps
 {
@@ -47,21 +46,20 @@ interface WMenuProps
   children:React.ReactNode,
   opened?:boolean,
   position:('full-width-bottom'|'right-bottom'|'left-bottom'),
-  onClose?:()=>any
 }
 
 export default function WMenu(props:WMenuProps) {
 
 
   return (
-    <OutsideClickHandler onOutsideClick={(e)=>{ props.onClose?.(); e.stopPropagation(); }}>
+    <React.Fragment>
       {
         props.opened &&
         <Menu position={props.position}>
           {props.children}
         </Menu>
       }
-    </OutsideClickHandler>
+    </React.Fragment>
   )
 }
 
