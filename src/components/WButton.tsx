@@ -1,10 +1,19 @@
 import React from 'react';
 import styled from 'styled-components'
+//@ts-ignore
+import α from 'color-alpha'
+
 
 interface StyledButtonStyleProps
 {
-  selected?:boolean
+  bgHoverColor?:string,
+  fgHoverColor?:string,
+  bgColor?:string,
+  fgColor?:string,
+  selected?:boolean,
+  styleType?:('unlevated' | 'outlined' | 'flat')
 }
+
 
 const Container = styled.div`
 position:relative;
@@ -13,9 +22,8 @@ width:100%;
 const StyledButton = styled.button<StyledButtonStyleProps>`
 display:block;
 box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
 width:100%;
-background-color: ${props => props.theme.primaryBackground};
-color: ${props => props.theme.primaryForeground};
 border: 0px transparent;
 border-radius: 3px;
 transition: all 0.2s;
@@ -47,8 +55,6 @@ transition:all 0.2s;
   bottom:0;
   width:20%;
   height:100%;
-  background: ${props => props.theme.secondaryBackground};
-  color: ${props => props.theme.secondaryForeground};
 }
 
 &:hover:before
@@ -69,6 +75,95 @@ box-shadow:none;
 
 `: ''}
 
+${props => {
+
+  let bgColor = props.theme.primaryBackground;
+  let fgColor = props.theme.primaryForeground;
+  
+  let bgHoverColor = props.theme.secondaryBackground;
+  let fgHoverColor = props.theme.secondaryForeground;
+  
+  if(props.bgColor)
+  {
+    bgColor = props.theme[props.bgColor] || props.bgColor;
+  }
+  if(props.fgColor)
+  {
+    fgColor = props.theme[props.fgColor] || props.fgColor;
+  }
+
+  if(props.bgHoverColor)
+  {
+    bgHoverColor = props.theme[props.bgHoverColor] || props.bgHoverColor;
+  }
+  if(props.fgHoverColor)
+  {
+    fgHoverColor = props.theme[props.fgHoverColor] || props.fgHoverColor;
+  }
+
+
+
+  switch(props.styleType)
+  {
+    case 'unlevated':
+      return `
+      background-color: ${bgColor};
+      color: ${fgColor};
+      &:before {
+        background: ${bgHoverColor};
+      }
+      &:hover
+      {
+        color: ${fgHoverColor};
+      }
+      box-shadow:none
+      `;
+    break;
+    case 'flat':
+      return `
+      background-color: ${fgColor};
+      color: ${bgColor};
+      box-shadow:none;
+      &:before
+      {
+
+        background: ${ α(bgColor,.2)};
+        color: ${fgColor};
+      }
+      `;
+    break;
+    case 'outlined':
+      return `
+      background-color: ${fgColor};
+      color: ${bgColor};
+      box-shadow:none;
+      &:before
+      {
+
+        background: ${ α(bgColor,.2)};
+        color: ${fgColor};
+      }
+      outline:2px solid;
+      `;
+    break;
+    default:
+      return `
+      background-color: ${bgColor};
+      color: ${fgColor};
+      &:before {
+        background: ${bgHoverColor};
+      }
+      &:hover
+      {
+        color: ${fgHoverColor};
+      }
+      `;
+    break;
+  }
+
+
+}}
+
 `;
 
 const ButtonLabel = styled.span`
@@ -83,7 +178,14 @@ export interface ButtonProps {
     onClick?(event:React.MouseEvent):any,
     onMouseDown?(event:React.MouseEvent):any,
     type?:('button'|'submit'),
-    selected?:boolean
+    selected?:boolean,
+    bgHoverColor?:string,
+    fgHoverColor?:string,
+    bgColor?:string,
+    fgColor?:string,
+    iconRight?:React.ReactNode,
+    iconLeft?:React.ReactNode,
+    styleType?:('unlevated' | 'outlined' | 'flat')
 }
 
 export default function WButton(props:ButtonProps) {
@@ -91,7 +193,7 @@ export default function WButton(props:ButtonProps) {
 
   return (
     <Container className={props.className}>
-      <StyledButton selected={props.selected} type={props.type || 'button'} onMouseDown={props.onMouseDown} onClick={props.onClick}>
+      <StyledButton fgColor={props.fgColor} bgColor={props.bgColor} fgHoverColor={props.fgHoverColor} bgHoverColor={props.bgHoverColor}  styleType={props.styleType} selected={props.selected} type={props.type || 'button'} onMouseDown={props.onMouseDown} onClick={props.onClick}>
         <ButtonLabel>{props.label}</ButtonLabel>
       </StyledButton>
       {props.children}

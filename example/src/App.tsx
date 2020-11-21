@@ -86,6 +86,7 @@ const App = () => {
               <WTextField rules={{}} onChange={()=>console.log("CHANGE")} label="Apellido"></WTextField>
               <WButton type="submit" label="Aceptar"></WButton>
             </WForm>
+            <br/>
             <WForm>
               {/*style={{width:"100%",display:"grid",gridTemplateColumns:"1r",gridGap:"1.5rem"}}*/}
 
@@ -138,7 +139,13 @@ const App = () => {
 
 
             <WButton label={"Show toast"} onClick={showToast} />
-
+            <br />
+            <WButton styleType={"unlevated"} label={"Unelevated"} />
+            <br />
+            <WButton styleType={"flat"} label={"Flat"} />
+            <br />
+            <WButton bgColor={"successBg"} fgColor={"successFg"} styleType={"outlined"} label={"Outlined"} />
+            <br />
             <WButton onClick={()=>setMenuOpened(!menuOpened)} selected={menuOpened} label={"Open menu"}>
               <WMenu onClose={()=>setMenuOpened(false)} position={"full-width-bottom"} opened={menuOpened}>
                 <WList
@@ -149,8 +156,7 @@ const App = () => {
                 />
               </WMenu>
             </WButton>
-
-            <br /><br />
+            <br />
             <WButton onClick={()=>setPopupOpened(true)} label={"Open popup"}/>
             <WPopup opened={popupOpened} onClose={()=>setPopupOpened(false)}>
               a

@@ -11,6 +11,9 @@ export default {
   secondaryDark1Background:"#2d59d6",
   secondaryDark1Foreground:"white",
   secondaryDark2Background:"#26418f",
-  secondaryDark2Foreground:"white"
+  secondaryDark2Foreground:"white",
+
+  successBg:'#36d959',
+  successFg:'white'
 
 };
