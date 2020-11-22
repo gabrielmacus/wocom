@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react'
 
 //
-import {renderToast,WTableColImage,WList,WMenu,WTableColActions,WPopup,WImage,WCanvas,WTitle,WSidemenu,WLayout,WButton,WTextField,WSelectField,WSelectFieldOption,WForm,WTable,WTableCol,WRatingField,WCheckRadio, DefaultTheme } from 'wocom'
+import {File,renderToast,WFileUploadField,WTableColImage,WList,WMenu,WTableColActions,WPopup,WImage,WCanvas,WTitle,WSidemenu,WLayout,WButton,WTextField,WSelectField,WSelectFieldOption,WForm,WTable,WTableCol,WRatingField,WCheckRadio, DefaultTheme } from 'wocom'
 import {ThemeProvider} from 'styled-components';
 import 'wocom/dist/index.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserEdit,faTrash,faCheck } from '@fortawesome/free-solid-svg-icons'
+import _ from 'lodash';
+
+interface CustomFile extends File
+{
+  description?:string
+}
 
 const App = () => {
   const [items, setItems] = useState([]);
@@ -18,7 +24,7 @@ const App = () => {
   const [canvasLayer,setCanvasLayer] = useState<string>("f2");
   const [popupOpened, setPopupOpened] = useState<boolean>(false);
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
-  const [item,setItem] = useState<{name?:string}>({});
+  const [item,setItem] = useState<{name?:string,files?:CustomFile[]}>({files:[]});
 
   let toastCounter = 0;
   function showToast()
@@ -56,6 +62,23 @@ const App = () => {
     return (<strong style={{fontWeight:600}}>{value}</strong>)
   }
 
+  //let formData = new FormData();
+  function onFile(files:File[] | File)
+  {
+    setItem({...item,...{files:(files as File[])}});
+
+    /*
+    let i = 0;
+    for(const file of (files as File[]))
+    {
+      formData.append(`files[${i}][file]`,file.file);
+
+      i++;
+    }
+
+    console.log(formData)*/
+  }
+
   const [name, setName] = useState("")
 
 
@@ -84,8 +107,13 @@ const App = () => {
         {/*style={{maxWidth:"900px",margin:"auto",width:"90%"}}*/}
 
             <WTitle>Demo title</WTitle>
+            {JSON.stringify(item)}
             <WForm onSubmit={onSubmit}>
               <WTextField rules={{}} value={item.name}  onChange={(val)=>setItem({...item,...{name:val?.toString()}})} label="Name"></WTextField>
+              <WFileUploadField 
+              value={item.files}
+              fileFields={()=><WTextField  label="Detalles (opcional)" />}
+              max={2} allowedExtensions={['jpg','jpeg','png']} onChange={onFile} multiple rules={{max:2}}    label="Pictures" />
               <WButton type="submit" label="Aceptar"></WButton>
             </WForm>
             <br/>

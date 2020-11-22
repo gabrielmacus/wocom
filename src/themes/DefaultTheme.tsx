@@ -14,6 +14,9 @@ export default {
   secondaryDark2Foreground:"white",
 
   successBg:'#36d959',
-  successFg:'white'
+  successFg:'white',
+
+  green:'#009C41',
+  red:'#e53935'
 
 };

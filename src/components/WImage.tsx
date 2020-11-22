@@ -9,7 +9,8 @@ interface ImageContainerStyle{
 interface ImageStyle
 {
   width?:string,
-  height?:string
+  height?:string,
+  fit?:string
 }
 
 const ImageContainer = styled.figure<ImageContainerStyle>`
@@ -21,6 +22,7 @@ const Image = styled.img<ImageStyle>`
 
     width:${props => props.width ? props.width : '100%'};
     height:${props => props.height ? props.height : 'auto'};
+    object-fit:${props => props.fit ? props.fit : 'cover'};
     display:block;
 `;
 
@@ -28,14 +30,15 @@ interface ImageProps{
     src:string,
     elevated?:boolean,
     width?:string,
-    height?:string
+    height?:string,
+    fit?:string
 }
 
 export default function WImage(props:ImageProps) {
 
     return (
         <ImageContainer elevated={props.elevated} >
-            <Image height={props.height} width={props.width} src={props.src} />
+            <Image height={props.height} fit={props.fit} width={props.width} src={props.src} />
         </ImageContainer>
     )
 }

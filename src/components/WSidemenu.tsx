@@ -15,6 +15,7 @@ user-select:none;
 `;
 
 const MenuItem = styled.div`
+color: ${props => props.theme.primaryForeground};
 & > a
 {
   color:inherit;

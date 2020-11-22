@@ -23,6 +23,8 @@ export {default as WMenu} from './components/WMenu';
 export {default as WList} from './components/WList';
 export {default as WTableColActions} from './components/WTableColActions';
 export {default as renderToast} from './components/WToast';
+export {default as WFileUploadField} from './components/WFileUploadField';
+export type { File  as File} from './components/WFileUploadField';
 
 
 export {default as DefaultTheme} from './themes/DefaultTheme';

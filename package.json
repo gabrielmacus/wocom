@@ -1,6 +1,6 @@
 {
   "name": "wocom",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Wonderful Components from React.js",
   "author": "gabrielmacus",
   "license": "MIT",
@@ -81,6 +81,7 @@
     "fastest-validator": "^1.7.0",
     "fastest-validator-typescript": "^1.0.7",
     "lodash": "^4.17.20",
+    "pretty-bytes": "^5.4.1",
     "react-html-id": "^0.1.5",
     "react-id-generator": "^3.0.1",
     "react-outside-click-handler": "^1.3.0",

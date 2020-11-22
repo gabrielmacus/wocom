@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import styled from 'styled-components'
 //@ts-ignore
 import α from 'color-alpha'
@@ -7,12 +7,14 @@ import OutsideClickHandler from 'react-outside-click-handler';
 
 interface StyledButtonStyleProps
 {
+  disabled?:boolean;
   bgHoverColor?:string,
   fgHoverColor?:string,
   bgColor?:string,
   fgColor?:string,
   selected?:boolean,
-  styleType?:('unlevated' | 'outlined' | 'flat')
+  styleType?:('unlevated' | 'outlined' | 'flat'),
+  size?:('small'|'default')
 }
 
 interface ButtonLabelStyleProps
@@ -25,6 +27,12 @@ position:relative;
 width:100%;
 `;
 const StyledButton = styled.button<StyledButtonStyleProps>`
+
+${props => props.disabled ? `
+opacity:0.6;
+pointer-events:none;
+`: ''}
+
 display:block;
 box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
@@ -33,10 +41,8 @@ border: 0px transparent;
 border-radius: 3px;
 transition: all 0.2s;
 cursor:pointer;
-padding: 12px 20px;
 text-align: center;
 display: inline-block;
-font-size: 17px;
 text-transform: uppercase;
 font-weight: 700;
 position: relative;
@@ -44,6 +50,27 @@ will-change: transform;
 outline:0;
 border:none;
 transition:all 0.2s;
+
+${props => {
+
+  switch(props.size)
+  {
+    case 'small':
+      return `
+      padding: 8px 16px;
+      font-size: 14px;
+      `;
+    break;
+    default:
+      return `
+      padding: 12px 20px;
+      font-size: 17px; 
+      `
+    break;
+  }
+
+}}
+
 &:active
 {
     box-shadow:none;
@@ -177,7 +204,8 @@ display: flex;
 justify-content: ${props => props.withIcon ? 'space-between':'center'};
 
 `;
-
+//padding: 8px 16px;
+//    font-size: 14px;
 export interface ButtonProps {
     children?:React.ReactNode,
     label:string,
@@ -193,7 +221,10 @@ export interface ButtonProps {
     fgColor?:string,
     iconRight?:React.ReactNode,
     iconLeft?:React.ReactNode,
-    styleType?:('unlevated' | 'outlined' | 'flat')
+    styleType?:('unlevated' | 'outlined' | 'flat'),
+    size?:('small'|'default'),
+    style?:CSSProperties,
+    disabled?:boolean
 }
 
 export default function WButton(props:ButtonProps) {
@@ -201,8 +232,8 @@ export default function WButton(props:ButtonProps) {
 
   return (
     <OutsideClickHandler onOutsideClick={(e)=>props.onClickOutside?.(e)}>
-      <Container className={props.className}>
-        <StyledButton fgColor={props.fgColor} bgColor={props.bgColor} fgHoverColor={props.fgHoverColor} bgHoverColor={props.bgHoverColor}  styleType={props.styleType} selected={props.selected} type={props.type || 'button'} onMouseDown={props.onMouseDown} onClick={props.onClick}>
+      <Container style={props.style} className={props.className}>
+        <StyledButton disabled={props.disabled} size={props.size} fgColor={props.fgColor} bgColor={props.bgColor} fgHoverColor={props.fgHoverColor} bgHoverColor={props.bgHoverColor}  styleType={props.styleType} selected={props.selected} type={props.type || 'button'} onMouseDown={props.onMouseDown} onClick={props.onClick}>
           <ButtonLabel withIcon={Boolean(props.iconLeft || props.iconRight)}>
             {props.iconLeft}
             {props.label}
