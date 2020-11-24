@@ -1,8 +1,8 @@
-import React, {  MouseEvent } from 'react';
+import React, {  MouseEvent, useEffect,useContext } from 'react';
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import {SelectFieldContext} from './WSelectField';
+import {SelectFieldContext,SelectFieldContextProps} from './WSelectField';
 import _ from 'lodash';
 
 interface OptionProps {
@@ -32,25 +32,30 @@ display:flex;
 
 export type SelectOption = {label:string, value:any};
 
-export type SelectOptionClick = (option:SelectOption,event?:MouseEvent) => any
+export type SelectOptionEvent = (option:SelectOption,event?:MouseEvent) => any
 
 interface SelectFieldOptionProps
 {
     //children:React.ReactNode,
     label:string,
-    onClick?:SelectOptionClick,
-    value:any
+    onClick?:SelectOptionEvent,
+    value:any,
+    selected?:boolean
 }
 
 export default function WSelectFieldOption(props:SelectFieldOptionProps) {
+  const context = useContext<SelectFieldContextProps | undefined>(SelectFieldContext);
 
-  function isSelected(multiple:(boolean|undefined),selected:any):boolean
-  {
+  
+  function isSelected(/*multiple:(boolean|undefined),*/selected:any):boolean
+  { 
     if(!selected)
     {
       return false;
     }
     
+    return selected.findIndex((option: SelectOption) => option.value == props.value) > -1;
+    /*
     if(multiple)
     {
       return selected.findIndex((option: SelectOption) => option.value == props.value) > -1;
@@ -59,20 +64,41 @@ export default function WSelectFieldOption(props:SelectFieldOptionProps) {
     {
       
       return selected.value == props.value;
-    }
+    }*/
     
   }
+  
+  useEffect(()=>{
+    if(props.selected)
+    context?.selectOption({value:props.value,label:props.label});
+  },[props.selected]);
+
+  useEffect(()=>{
+    if(props.selected)
+    context?.selectOption({value:props.value,label:props.label});
+  },[])
+  
   return (
+      <React.Fragment>
+      <Option 
+        selected={Boolean(isSelected(context?.selected))}
+        onClick={(event)=>{ props.onClick?.({value:props.value,label:props.label},event); context?.selectOption({value:props.value,label:props.label},event);}} >
+        {props.label} <FontAwesomeIcon className="icon" icon={faCheck} /> 
+      </Option>
+      {/*
       <SelectFieldContext.Consumer>
           {
             context =>
             <Option 
             selected={isSelected(context?.multiple,context?.selected)}
-            onClick={(event)=>{ props.onClick?.({value:props.value,label:props.label},event); context?.onClick({value:props.value,label:props.label},event);}} >
+            onClick={(event)=>{ props.onClick?.({value:props.value,label:props.label},event); context?.selectOption({value:props.value,label:props.label},event);}} >
             {props.label} <FontAwesomeIcon className="icon" icon={faCheck} /> 
             </Option>
           }
       </SelectFieldContext.Consumer>
+      
+      */}
+      </React.Fragment>
   );
 }
 

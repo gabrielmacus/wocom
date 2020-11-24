@@ -24,7 +24,7 @@ const App = () => {
   const [canvasLayer,setCanvasLayer] = useState<string>("f2");
   const [popupOpened, setPopupOpened] = useState<boolean>(false);
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
-  const [item,setItem] = useState<{name?:string,files?:CustomFile[]}>({files:[]});
+  const [item,setItem] = useState<{language?:number,name?:string,interests:string[],files?:CustomFile[]}>({files:[],interests:[]});
 
   let toastCounter = 0;
   function showToast()
@@ -124,10 +124,15 @@ const App = () => {
               <WTextField rules={{max:120}} label="Apellido"></WTextField>
               <WTextField rules={{min:20,max:100,positive:true,integer:true}}  validationType="number" maskOptions={{mask:[/\d/,/\d/],guide:false}}  label="Edad"></WTextField>
               <WTextField rules={{optional:true,min:10,max:500}} label="Descripción" textarea></WTextField>
-              <WSelectField rules={{type:'number'}} label="Lenguajes de programación">
-                <WSelectFieldOption value={1} label="Javascript" />
-                <WSelectFieldOption value={2} label="Python" />
-                <WSelectFieldOption value={3} label="C#" />
+              <WSelectField onChange={(val)=>setItem({...item,...{language:val}})} rules={{type:'number'}} label="Lenguajes de programación">
+                <WSelectFieldOption selected={item.language == 1} value={1} label="Javascript" />
+                <WSelectFieldOption selected={item.language == 2} value={2} label="Python" />
+                <WSelectFieldOption selected={item.language == 3} value={3} label="C#" />
+              </WSelectField>
+              <WSelectField  onChange={(val)=>setItem({...item,...{interests:val}})} multiple rules={{type:'array'}} label="Intereses">
+                <WSelectFieldOption selected={item.interests.findIndex(i => i == "Football") > -1} value={"Football"} label="Football" />
+                <WSelectFieldOption selected={item.interests.findIndex(i => i == "Kayaking") > -1} value={"Kayaking"} label="Kayaking" />
+                <WSelectFieldOption selected={item.interests.findIndex(i => i == "Skateboarding") > -1} value={"Skateboarding"} label="Skateboarding" />
               </WSelectField>
               <WRatingField rules={{min:1,max:5}}    label="Calificación"  />
               <WCheckRadio type={'checkbox'} label="Zanahoria" />

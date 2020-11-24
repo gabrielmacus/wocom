@@ -1,7 +1,7 @@
 import React, { createContext,useState, useRef,useEffect  } from 'react';
 import styled from 'styled-components'
 import Field,{FieldProps } from './WField';
-import {SelectOptionClick, SelectOption} from './WSelectFieldOption';
+import {SelectOptionEvent, SelectOption} from './WSelectFieldOption';
 import {Input} from './WTextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
@@ -51,29 +51,40 @@ const SelectedOption = styled.div`
 }
 `;
 
-interface SelectFieldProps extends Omit<FieldProps,'validationType'|'labelId'>
+interface SelectFieldProps extends Omit<FieldProps,'validationType'|'labelId'|'value'>
 {
     multiple?:boolean,
-    selectedValue?:any,
+    //selectedValue?:any,
     onChange?(value:any):any
 }
 
-export const SelectFieldContext = createContext<{onClick:SelectOptionClick,multiple?:boolean, selected:any} | undefined>(undefined);//createContext<Partial<SelectFieldOptionProps>>({});
+export interface SelectFieldContextProps 
+{
+    selectOption:SelectOptionEvent,
+    multiple?:boolean, 
+    selected:any
+} 
+
+export const SelectFieldContext = createContext<SelectFieldContextProps | undefined>(undefined);//createContext<Partial<SelectFieldOptionProps>>({});
 
 export default function SelectField(props:SelectFieldProps) {
     const [optionsOpened, setOptionsOpened] = useState(false);
-    const [selected, setSelected] = useState<{label:string,value:any}[]>(props.selectedValue?props.selectedValue : []);
+    //props.selectedValue?props.selectedValue : []
+    const [selected, setSelected] = useState<{label:string,value:any}[]>([]);
     const didMountRef = useRef(false);
     const [htmlId] = useId();
 
-    function onClickOption(option:SelectOption) {
+    function selectOption(option:SelectOption,event?:React.MouseEvent) {
 
         if(props.multiple)
         {
-            let valueIndex = selected.findIndex((o:SelectOption) => o.value == option.value)
+            let valueIndex = selected.findIndex((o:SelectOption) => o.value == option.value);
             if(valueIndex > -1)
             {
+                if(event)
+                {
                 setSelected(selected.filter((o: SelectOption) => o.value != option.value));
+                }
             }
             else
             {
@@ -82,6 +93,7 @@ export default function SelectField(props:SelectFieldProps) {
         }
         else{
             setSelected([option]);
+            if(event)
             setOptionsOpened(false);
         }
     }
@@ -139,13 +151,12 @@ export default function SelectField(props:SelectFieldProps) {
                 <FontAwesomeIcon style={{transform:optionsOpened?'rotate(180deg)':''}} icon={faCaretDown} />
             </SelectPlaceholder>
 
-            {optionsOpened &&
-            <SelectOptions >
-                <SelectFieldContext.Provider value={{onClick:onClickOption,multiple:props.multiple,selected}} >
+            <SelectOptions style={{display:optionsOpened ? 'block':'none'}} >
+                <SelectFieldContext.Provider value={{selectOption,multiple:props.multiple,selected}} >
                     {props.children}
                 </SelectFieldContext.Provider>
             </SelectOptions>
-            }
+            
             </Select>
        </OutsideClickHandler>
 
