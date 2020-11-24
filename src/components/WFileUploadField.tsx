@@ -89,7 +89,7 @@ export type File =
 
 interface FileUploadFieldProps extends Omit<FieldProps,'children'|'labelId'|'validationType'>
 {
-    onChange?:(value:File | File[])=>any,
+    onChange?:(value:File[])=>any,
     multiple?:boolean,
     max?:number,
     emptyMessage?:string,
@@ -134,7 +134,7 @@ export default function WFileUploadField(props:FileUploadFieldProps) {
             }
             
             setValue(files);
-            props.onChange?.(props.multiple ? files : files[0])
+            props.onChange?.(files)
         }
 
     });
@@ -144,7 +144,7 @@ export default function WFileUploadField(props:FileUploadFieldProps) {
         let files = _.clone(value);
         files.splice(key,1);
         setValue(files);
-        props.onChange?.(props.multiple ? files : files[0])
+        props.onChange?.(files)
     }
 
     function getPreview(file:File):string
@@ -166,7 +166,7 @@ export default function WFileUploadField(props:FileUploadFieldProps) {
         file.name = name ? name.toString() : '';
         files[index] = file;
         setValue(files);
-        props.onChange?.(props.multiple ? files : files[0])
+        props.onChange?.(files)
     }
 
     useEffect(()=>{

@@ -63,9 +63,9 @@ const App = () => {
   }
 
   //let formData = new FormData();
-  function onFile(files:File[] | File)
+  function onFile(files:File[])
   {
-    setItem({...item,...{files:(files as File[])}});
+    setItem({...item,...{files}});
 
     /*
     let i = 0;
