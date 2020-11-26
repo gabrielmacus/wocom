@@ -5,6 +5,8 @@ export default {
   primaryLight1Foreground:"white",
   primaryLight2Background:"#8f83cc",
   primaryLight2Foreground:"white",
+  primaryDark1Background:"#2a12a1",
+  primaryDark1Foreground:"white",
 
   secondaryBackground:"#2c63ff",
   secondaryForeground:"white",

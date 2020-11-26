@@ -24,7 +24,16 @@ const App = () => {
   const [canvasLayer,setCanvasLayer] = useState<string>("f2");
   const [popupOpened, setPopupOpened] = useState<boolean>(false);
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
-  const [item,setItem] = useState<{language?:number,name?:string,interests:string[],files?:CustomFile[]}>({files:[],interests:[]});
+  const [item,setItem] = useState<{language?:number,name?:string,interests:string[],files?:CustomFile[]}>({files:[
+    {
+      "id": "5fbfdc8600a7ba0ee0965eab",
+      "name": "ABC",
+      "size": 0,
+      "type": "image",
+      "ext": "jpg",
+      "url": "http://192.168.0.2/2020\\11\\26\\1606409350409_0.1187860330767696.jpg"
+    }
+  ],interests:[]});
 
   let toastCounter = 0;
   function showToast()

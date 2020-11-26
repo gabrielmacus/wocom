@@ -54,11 +54,11 @@ overflow:auto;
 const Topbar = styled.div`
 
 //transition:all 0.2s;
-background: #212121;
+background: ${props => props.theme.primaryDark1Background};
 height:60px;
 display:flex;
 align-items:center;
-color: white;
+color: ${props => props.theme.primaryDark1Foreground};
 position: fixed;
 right:0;
 top: 0;

@@ -76,16 +76,36 @@ display: block;
 height:100%;
 object-fit:cover;
 `;
-export type File =
+
+/*
+export interface NewFile 
 {
-    _id?:string,
+
     name:string,
     size:number,
     type:string,
     file:globalThis.File,
     ext?:string
 }
+export interface UploadedFile
+{
+    id:string,
+    name:string,
+    size:number,
+    type:string,
+    url:string,
+    ext?:string
+}*/
 
+export type File =  {
+    id?:string,
+    name:string,
+    size:number,
+    type:string,
+    url?:string,
+    file?:globalThis.File,
+    ext?:string
+};
 
 interface FileUploadFieldProps extends Omit<FieldProps,'children'|'labelId'|'validationType'>
 {
@@ -149,8 +169,16 @@ export default function WFileUploadField(props:FileUploadFieldProps) {
 
     function getPreview(file:File):string
     {
+        if(file.file)
+        {
+            return URL.createObjectURL(file.file);
+        }
+        else if(file.url)
+        {
+            return file.url;
+        }
 
-        return URL.createObjectURL(file.file);
+        return '';
     }
 
     function openFileDialog()
@@ -187,7 +215,7 @@ export default function WFileUploadField(props:FileUploadFieldProps) {
                     }
                     {value.length > 0 &&
                         value.map((file,key) => 
-                            <File key={file._id || key} withPreview={file.type === 'image' || file.type === 'video'}>
+                            <File key={file.id || key} withPreview={file.type === 'image' || file.type === 'video'}>
                                 {file.type === 'image' && <WImage  height={'100%'}  src={getPreview(file)} />}
                                 {file.type === 'video' && <Video src={getPreview(file)} />}
                                 <FileData>

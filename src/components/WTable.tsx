@@ -128,11 +128,11 @@ export const TableTitle = styled.div`
 
 border-top-left-radius:10px;
 border-top-right-radius:10px;
-font-size: 25px;
+font-size: 20px;
+padding: 20px;
 padding-left: 40px;
 padding-right: 40px;
 padding-top: 20px;
-padding-bottom: 20px;
 background: #212121;
 color: white;
 `;
@@ -411,7 +411,7 @@ export default function WTable(props:TableProps) {
           </DataTable>
 
           <Footer>
-            {props.paginationConfig &&
+            {!props.error && props.items.length > 0 && props.paginationConfig && getPaginationConfig().totalPages > 1 &&
             <WPagination
               totalPages={getPaginationConfig().totalPages}
               page={getPaginationConfig().page}
