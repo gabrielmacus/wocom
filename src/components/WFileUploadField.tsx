@@ -204,7 +204,7 @@ export default function WFileUploadField(props:FileUploadFieldProps) {
 
 
     return (
-        <WField value={value} labelId={htmlId} rules={props.rules} validationType={props.multiple ? 'array' : 'object' }  label={props.label}>
+        <WField value={value} labelId={htmlId} rules={props.rules} validationType={'array'}  label={props.label}>
             <Container>
 
                 <FileList>
