@@ -116,7 +116,7 @@ const App = () => {
         {/*style={{maxWidth:"900px",margin:"auto",width:"90%"}}*/}
 
             <WTitle>Demo title</WTitle>
-            {JSON.stringify(item)}
+            
             <WForm onSubmit={onSubmit}>
               <WTextField rules={{}} value={item.name}  onChange={(val)=>setItem({...item,...{name:val?.toString()}})} label="Name"></WTextField>
               <WFileUploadField 
@@ -131,6 +131,9 @@ const App = () => {
 
               <WTextField debounce={1500} onChange={(val)=>console.log("VAL",val)} value={name} rules={{max:120}} label="Nombre"></WTextField>
               <WTextField rules={{max:120}} label="Apellido"></WTextField>
+
+              <WTitle level={2} borderBottom >Datos del cliente</WTitle>
+
               <WTextField rules={{min:20,max:100,positive:true,integer:true}}  validationType="number" maskOptions={{mask:[/\d/,/\d/],guide:false}}  label="Edad"></WTextField>
               <WTextField rules={{optional:true,min:10,max:500}} label="Descripción" textarea></WTextField>
               <WSelectField onChange={(val)=>setItem({...item,...{language:val}})} rules={{type:'number'}} label="Lenguajes de programación">
@@ -180,6 +183,14 @@ const App = () => {
 
             </WTable>
             <br/><br/>
+
+            <WTable breakpoint={'768px'} title="Users" items={[{name:'John',surname:'Doe',age:25},{name:'John',surname:'Doe',age:25},{name:'John',surname:'Doe',age:25}]}>
+              <WTableCol width="33%" prop="name" header="Name" />
+              <WTableCol width="33%" prop="surname" header="Surname" />
+              <WTableCol width="33%" prop="age" header="Age" />
+            </WTable>
+
+            <br/> <br/>
 
 
             <WButton iconLeft={<FontAwesomeIcon icon={faCheck} />} iconRight={<FontAwesomeIcon icon={faUserEdit} />} label={"Show toast"} onClick={showToast} />

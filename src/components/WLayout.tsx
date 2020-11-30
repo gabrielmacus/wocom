@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import WImage from './WImage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import Hammer from 'react-hammerjs';
 
 
 interface LayoutStyleProps
@@ -13,7 +14,7 @@ interface LayoutStyleProps
 
 const BodyContainer = styled.div`
 float:right;
-width:calc(100% - 350px);
+width:calc(100% - 300px);
 //transition:all 0.2s;
 `;
 
@@ -35,12 +36,13 @@ const SidebarContainer = styled.aside`
 height: 100%;
 position:fixed;
 overflow: hidden;
-width:350px;
+width:300px;
 box-shadow: 4px 7px 10px rgba(0, 0, 0, 0.4);
 //transition:all 0.2s;
 z-index: 1000;
-background:${props => props.theme.primaryBackground};
-color: ${props => props.theme.primaryForeground};
+background:#3f4a59;
+color:white;
+font-size:15px;
 `;
 
 const Sidebar = styled.div`
@@ -54,11 +56,11 @@ overflow:auto;
 const Topbar = styled.div`
 
 //transition:all 0.2s;
-background: ${props => props.theme.primaryDark1Background};
+background: ${props => props.theme.primaryBackground};
 height:60px;
 display:flex;
 align-items:center;
-color: ${props => props.theme.primaryDark1Foreground};
+color: ${props => props.theme.primaryForeground};
 position: fixed;
 right:0;
 top: 0;
@@ -66,9 +68,9 @@ z-index: 1000;
 padding-left: 30px;
 padding-right: 30px;
 width: 100%;
-width:calc(100% - 350px);
+width:calc(100% - 300px);
 justify-content:space-between;
-
+box-shadow: 4px 0 5px rgba(0,0,0,0.08);
 `;
 
 
@@ -84,7 +86,7 @@ align-items:center;
 
 
 const Layout = styled.div<LayoutStyleProps>`
-background-color:#f0f2f5;
+background-color:white;
 ${props => props.menuStatus ? 
   `
   ${SidebarContainer}
@@ -158,9 +160,12 @@ left: -30px;
 padding-left: 30px;
 padding-right: 30px;
 cursor:pointer;
+@media (hover: hover) {
 &:hover{
 opacity:0.5;
 }
+}
+
 transition:all 0.2s;
 `
 
@@ -202,14 +207,13 @@ export default function WLayout(props:WLayoutProps) {
     return (
         <Layout menuStatus={menuStatus} breakpoint={getBreakpoint()}>
 
-
             {props.leftSidebar &&
             <SidebarContainer  >
                 <Sidebar>{props.leftSidebar}</Sidebar>
                 {props.softwareVersion && <SoftwareVersionBadge>{props.softwareVersion}</SoftwareVersionBadge>}
             </SidebarContainer>}
             <Topbar >
-              {props.leftSidebar && <MenuOpener onMouseDown={()=>{setmenuStatus(!menuStatus)}} ><FontAwesomeIcon icon={faBars} /></MenuOpener>}
+              {props.leftSidebar && <Hammer onTap={()=>setmenuStatus(!menuStatus)} ><MenuOpener ><FontAwesomeIcon icon={faBars} /></MenuOpener></Hammer>}
               {props.title &&
               <Title>
                 <span>{props.title}</span>

@@ -19,10 +19,12 @@ transition:background-color 0.2s;
 background-color:${(props)=>props.selected ?"#e0e0e0":"inherit"};
 justify-content:space-between;
 display:flex;
+@media (hover: hover) {
 &:hover
 {
     background-color:#039be5;
     color:white;
+}
 }
 & > .icon
 {

@@ -32,10 +32,12 @@ padding:12px;
 padding-left:15px;
 padding-right:15px;
 cursor:pointer;
+@media (hover: hover) {
 &:hover
 {
     background-color:${props => props.theme.secondaryDark1Background};
     color:${props => props.theme.secondaryDark1Foreground};
+}
 }
 transition:all 0.2s;
 `;

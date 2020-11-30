@@ -5,6 +5,7 @@ import { faCheckSquare } from '@fortawesome/free-solid-svg-icons'
 import { faSquare } from '@fortawesome/free-regular-svg-icons'
 import WField, { FieldProps} from './WField';
 import { useId } from "react-id-generator";
+import Hammer from 'react-hammerjs';
 
 const CheckRadio = styled.div`
 user-select:none;
@@ -84,7 +85,8 @@ export default function WCheckRadio(props:ValidationErrorsProps) {
 
     return (
         <WField labelId={htmlId} rules={props.rules} validationType={props.validationType || getValueType() } validationErrorPosition="left" inline={true} label={props.label}>
-            <CheckRadio id={htmlId} onClick={onChange}>
+            <Hammer onTap={onChange} >
+                <CheckRadio id={htmlId} >
                 <FontAwesomeIcon icon={faCheckSquare} />
                 {value == getOnValue()?
                     <FontAwesomeIcon icon={faCheckSquare} /> :
@@ -92,6 +94,7 @@ export default function WCheckRadio(props:ValidationErrorsProps) {
                 }
 
             </CheckRadio>
+            </Hammer>
         </WField>
     )
 }

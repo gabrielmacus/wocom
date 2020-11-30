@@ -3,7 +3,7 @@ import styled from 'styled-components'
 //@ts-ignore
 import α from 'color-alpha'
 import OutsideClickHandler from 'react-outside-click-handler';
-
+import Hammer from 'react-hammerjs';
 
 interface StyledButtonStyleProps
 {
@@ -25,9 +25,11 @@ interface ButtonLabelStyleProps
 const Container = styled.div`
 position:relative;
 width:100%;
+
 `;
 const StyledButton = styled.button<StyledButtonStyleProps>`
-
+border-radius: 3px;
+overflow:hidden;
 ${props => props.disabled ? `
 opacity:0.6;
 pointer-events:none;
@@ -38,7 +40,7 @@ box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
 width:100%;
 border: 0px transparent;
-border-radius: 3px;
+
 transition: all 0.2s;
 cursor:pointer;
 text-align: center;
@@ -88,14 +90,20 @@ ${props => {
   width:20%;
   height:100%;
 }
-
-&:hover:before
+@media (hover: hover) {
+  &:hover:before
+  {
+    opacity:1;
+    left:0%;
+    width:100%;
+  }
+}
+&:active:before
 {
   opacity:1;
   left:0%;
   width:100%;
 }
-
 ${props => props.selected ? `
 box-shadow:none;
 &:before
@@ -144,7 +152,13 @@ ${props => {
       &:before {
         background: ${bgHoverColor};
       }
-      &:hover
+      @media (hover: hover) {
+        &:hover
+        {
+          color: ${fgHoverColor};
+        }
+      }
+      &:active
       {
         color: ${fgHoverColor};
       }
@@ -185,7 +199,13 @@ ${props => {
       &:before {
         background: ${bgHoverColor};
       }
-      &:hover
+      @media (hover: hover) {
+        &:hover
+        {
+          color: ${fgHoverColor};
+        }
+      }
+      &:active
       {
         color: ${fgHoverColor};
       }
@@ -210,7 +230,7 @@ export interface ButtonProps {
     children?:React.ReactNode,
     label:string,
     className?:string,
-    onClick?(event:React.MouseEvent):any,
+    onClick?(event:HammerInput):any,
     onClickOutside?(event:React.MouseEvent):any,
     onMouseDown?(event:React.MouseEvent):any,
     type?:('button'|'submit'),
@@ -233,13 +253,15 @@ export default function WButton(props:ButtonProps) {
   return (
     <OutsideClickHandler onOutsideClick={(e)=>props.onClickOutside?.(e)}>
       <Container style={props.style} className={props.className}>
-        <StyledButton disabled={props.disabled} size={props.size} fgColor={props.fgColor} bgColor={props.bgColor} fgHoverColor={props.fgHoverColor} bgHoverColor={props.bgHoverColor}  styleType={props.styleType} selected={props.selected} type={props.type || 'button'} onMouseDown={props.onMouseDown} onClick={props.onClick}>
-          <ButtonLabel withIcon={Boolean(props.iconLeft || props.iconRight)}>
-            {props.iconLeft}
-            {props.label}
-            {props.iconRight}
-          </ButtonLabel>
-        </StyledButton>
+        <Hammer onTap={props.onClick} >
+          <StyledButton disabled={props.disabled} size={props.size} fgColor={props.fgColor} bgColor={props.bgColor} fgHoverColor={props.fgHoverColor} bgHoverColor={props.bgHoverColor}  styleType={props.styleType} selected={props.selected} type={props.type || 'button'} onMouseDown={props.onMouseDown} >
+            <ButtonLabel withIcon={Boolean(props.iconLeft || props.iconRight)}>
+              {props.iconLeft}
+              {props.label}
+              {props.iconRight}
+            </ButtonLabel>
+          </StyledButton>
+        </Hammer>
         {props.children}
       </Container>
     </OutsideClickHandler>

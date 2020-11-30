@@ -90,8 +90,7 @@ border-spacing:0px;
 export const DataTable = styled(Table)``;
 
 export const HeadTable = styled(Table)`
-position:sticky;
-top:0;
+
 `;
 
 export const Head = styled.thead`
@@ -125,9 +124,6 @@ export const Data =styled.td`
 
 export const TableTitle = styled.div`
 
-
-border-top-left-radius:10px;
-border-top-right-radius:10px;
 font-size: 20px;
 padding: 20px;
 padding-left: 40px;
@@ -137,8 +133,7 @@ background: #212121;
 color: white;
 `;
 export const HeaderContainer = styled.div`
-position:sticky;
-top:60px;`;
+`;
 
 export const EmptyTableMessage = styled.td`
 padding: 20px;
@@ -172,6 +167,8 @@ bottom:0;
 export const MainContainer = styled.div`
 position:relative;
 box-shadow: 0 0px 25px 0px rgba(0,0,0,0.25);
+border-radius:10px;
+overflow:hidden;
 `;
 
 

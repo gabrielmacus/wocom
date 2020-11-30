@@ -34,10 +34,11 @@ transition:all 0.2s;
 cursor:pointer;
 text-align:left;
 background-color:${props => props.selected ? '#e0e0e0':'inherit'};
-
+@media (hover: hover) {
 &:hover
 {
 background-color:#e0e0e0;
+}
 }
 `;
 

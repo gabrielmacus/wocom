@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import Hammer from 'react-hammerjs';
 
 interface SubmenuStyleProps
 {
@@ -22,12 +23,16 @@ color: ${props => props.theme.primaryForeground};
   text-decoration:none;
   display:block;
   position:relative;
-  padding:20px;
+  padding:30px;
   padding-top:15px;
   padding-bottom:15px;
+  display: flex;
+  justify-content: space-between;
+  @media (hover: hover) {
   &:hover{
-  color:${props => props.theme.primaryLight1Foreground};
-  background-color:${props => props.theme.primaryLight1Background};
+  color:white;
+  background-color:#363e47;
+  }
   }
   cursor:pointer;
   width:100%;
@@ -59,10 +64,12 @@ width:100%;
 order:1;
 ${ItemLink}
 {
+  @media (hover: hover) {
   &:hover
   {
     background-color:${props => props.theme.primaryLight1Foreground};
     color:${props => props.theme.primaryLight1Background};
+  }
   }
 }
 
@@ -70,8 +77,8 @@ ${props => props.opened ? `
 display:block;
 & + ${ItemLink}
 {
-  color:${props.theme.primaryLight1Foreground};
-  background-color:${props.theme.primaryLight1Background};
+  color:white;
+  background-color:#363e47;
 }
 `: 
 'display:none;'}
@@ -105,6 +112,20 @@ export default function WSidemenu(props:WSidemenuProps) {
 
     const [itemLinks, setItemLinks] = useState< {[key:number]:boolean}  >({});
 
+    function onClickMenuItem(item:MenuItemProps,key:number){
+      if(item.items){
+        setItemLinks({...itemLinks,...{[key]:!itemLinks[key]}});
+      }
+      else if((item as MenuItemStandard).href)
+      {
+        window.location.href = (item as MenuItemStandard).href;
+      }
+    }
+    function onClickSubmenuItem(item:MenuItemStandard)
+    {
+      window.location.href = item.href;
+    }
+
     return (
         <Sidemenu>
             {props.items.map((item: MenuItemProps,key:number) =>
@@ -115,20 +136,22 @@ export default function WSidemenu(props:WSidemenuProps) {
                     <MenuItem key={key}>
                       {'element' in item && item.element}
                       {'label' in item &&
-                      <ItemLink  href={item.href}>{item.label}</ItemLink>
+                      <Hammer onTap={()=>onClickSubmenuItem(item)}><ItemLink>{item.label}</ItemLink></Hammer>
                       }
                     </MenuItem>
                   )}
                 </Submenu>
                 }
                 {'element' in item && item.element}
+                {/*href={!item.items ? item.href : undefined} */}
                 {'label' in item &&
-                  <ItemLink href={!item.items ? item.href : undefined}
-                            onClick={!item.items ? undefined : () => setItemLinks({...itemLinks,...{[key]:!itemLinks[key]}})}
-                  >
-                    {item.label}
-                    {item.items && <FontAwesomeIcon style={{marginLeft:'15px'}} icon={itemLinks[key] ? faCaretUp : faCaretDown } />}
-                  </ItemLink>
+                  <Hammer onTap={()=>onClickMenuItem(item,key)}>
+                    <ItemLink 
+                    >
+                      {item.label}
+                      {item.items && <FontAwesomeIcon style={{marginLeft:'15px'}} icon={itemLinks[key] ? faCaretUp : faCaretDown } />}
+                    </ItemLink>
+                  </Hammer>
                 }
 
 
