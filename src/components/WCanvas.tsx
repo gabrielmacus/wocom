@@ -232,7 +232,8 @@ export default function WCanvas(props:WCanvasProps) {
   },[polygonLayers]);
 
   useEffect(()=>{
-    if(!_.isEqual(polygonLayers,props.polygons))
+    console.log(polygonLayers,props.polygons);
+    if(JSON.stringify(polygonLayers) !== JSON.stringify(props.polygons))
     {
       setPolygonLayers(props.polygons || {});
     }
