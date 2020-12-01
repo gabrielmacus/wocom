@@ -1,15 +1,17 @@
-import React, {  MouseEvent, useEffect,useContext } from 'react';
+import React, {  useEffect,useContext } from 'react';
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import {SelectFieldContext,SelectFieldContextProps} from './WSelectField';
 import _ from 'lodash';
+import Hammer from 'react-hammerjs';
 
 interface OptionProps {
     selected: boolean
   };
 
 const Option = styled.div<OptionProps>`
+user-select:none;
 line-height: initial;
 padding-left:16px;
 padding-right:16px;
@@ -34,7 +36,7 @@ display:flex;
 
 export type SelectOption = {label:string, value:any};
 
-export type SelectOptionEvent = (option:SelectOption,event?:MouseEvent) => any
+export type SelectOptionEvent = (option:SelectOption,event?:HammerInput) => any
 
 interface SelectFieldOptionProps
 {
@@ -82,11 +84,15 @@ export default function WSelectFieldOption(props:SelectFieldOptionProps) {
   
   return (
       <React.Fragment>
-      <Option 
-        selected={Boolean(isSelected(context?.selected))}
-        onClick={(event)=>{ props.onClick?.({value:props.value,label:props.label},event); context?.selectOption({value:props.value,label:props.label},event);}} >
-        {props.label} <FontAwesomeIcon className="icon" icon={faCheck} /> 
-      </Option>
+      <Hammer
+        options={{recognizers:{tap:{time:100}}}} 
+        onTap={(event)=>{ props.onClick?.({value:props.value,label:props.label},event); context?.selectOption({value:props.value,label:props.label},event);}}
+        >
+        <Option 
+          selected={Boolean(isSelected(context?.selected))} >
+          {props.label} <FontAwesomeIcon className="icon" icon={faCheck} /> 
+        </Option>
+      </Hammer>
       {/*
       <SelectFieldContext.Consumer>
           {

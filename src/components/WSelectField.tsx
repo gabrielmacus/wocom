@@ -7,10 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useId } from "react-id-generator";
-
+import Hammer from 'react-hammerjs';
 
 const Select = styled(Input).attrs({as:'div'})`
-height:50px;
+height:auto;
 cursor:pointer;
 user-select:none;
 `;
@@ -20,11 +20,13 @@ display: flex;
 justify-content: space-between;
 align-items:center;
 color:#9e9e9e;
+user-select:none;
 `;
 
 const SelectOptions = styled.div`
 z-index:500;
 position: absolute;
+user-select:none;
 left: 0;
 right: 0;
 max-height:200px;
@@ -35,6 +37,8 @@ box-shadow: 0 1px 10px rgba(0,0,0,0.1), 0 1px 10px rgba(0,0,0,0.08);
 
 const Selected = styled.div`
 display:flex;
+flex-wrap:wrap;
+
 font-weight:600;`;
 
 const SelectedOption = styled.div`
@@ -74,7 +78,7 @@ export default function SelectField(props:SelectFieldProps) {
     const didMountRef = useRef(false);
     const [htmlId] = useId();
 
-    function selectOption(option:SelectOption,event?:React.MouseEvent) {
+    function selectOption(option:SelectOption,event?:HammerInput) {
 
         if(props.multiple)
         {
@@ -135,22 +139,23 @@ export default function SelectField(props:SelectFieldProps) {
         onOutsideClick={() => setOptionsOpened(false)}
         >
             <Select id={htmlId} >
-            <SelectPlaceholder onClick={()=>{setOptionsOpened(!optionsOpened);}}>
-                {isSelectedEmpty()?
-                <React.Fragment>Seleccione una opción</React.Fragment>:
-                <React.Fragment>
-                    {props.multiple ?
-                    <Selected>
-                        {selected.map((o:any) => <SelectedOption key={o.value}><span>{o.label}</span></SelectedOption>)}
-                    </Selected>
-                    :
-                    <Selected key={selected[0].value}>{selected[0].label}</Selected>
+            <Hammer onTap={()=>{setOptionsOpened(!optionsOpened);}}  options={{recognizers:{tap:{time:100}}}} >
+                <SelectPlaceholder >
+                    {isSelectedEmpty()?
+                    <React.Fragment>Seleccione una opción</React.Fragment>:
+                    <React.Fragment>
+                        {props.multiple ?
+                        <Selected>
+                            {selected.map((o:any) => <SelectedOption key={o.value}><span>{o.label}</span></SelectedOption>)}
+                        </Selected>
+                        :
+                        <Selected key={selected[0].value}>{selected[0].label}</Selected>
+                        }
+                    </React.Fragment>
                     }
-                </React.Fragment>
-                }
-                <FontAwesomeIcon style={{transform:optionsOpened?'rotate(180deg)':''}} icon={faCaretDown} />
-            </SelectPlaceholder>
-
+                    <FontAwesomeIcon style={{transform:optionsOpened?'rotate(180deg)':''}} icon={faCaretDown} />
+                </SelectPlaceholder>
+            </Hammer>
             <SelectOptions style={{display:optionsOpened ? 'block':'none'}} >
                 <SelectFieldContext.Provider value={{selectOption,multiple:props.multiple,selected}} >
                     {props.children}

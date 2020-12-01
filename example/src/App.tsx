@@ -5,7 +5,7 @@ import {File,renderToast,WFileUploadField,WTableColImage,WList,WMenu,WTableColAc
 import {ThemeProvider} from 'styled-components';
 import 'wocom/dist/index.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserEdit,faTrash,faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faUserEdit,faTrash,faCheck,faUser, faCalculator} from '@fortawesome/free-solid-svg-icons'
 import _ from 'lodash';
 
 interface CustomFile extends File
@@ -107,10 +107,10 @@ const App = () => {
     <ThemeProvider theme={DefaultTheme}>
       <WLayout softwareVersion={"v1.0.0"} title={"Company Name"} logo={"https://livejones.com/wp-content/uploads/2020/05/logo-Placeholder.png"}
                leftSidebar={<WSidemenu items={[
-                 {label:'Users',href:'https://google.com.ar'},
-                 {label:'Products',href:'https://google.com.ar',items:[
-                   {label:'List products',href:'http://wikipedia.org'},
-                   {label:'Add product',href:'http://npmjs.com'}
+                 {label:'Users',href:'https://google.com.ar',icon:<FontAwesomeIcon icon={faUser} />},
+                 {label:'Products',href:'https://google.com.ar',icon:<FontAwesomeIcon icon={faCalculator} />,items:[
+                   {label:'List products',href:'http://wikipedia.org',active:true},
+                   {label:'Add product',icon:<FontAwesomeIcon icon={faTrash} /> ,href:'http://npmjs.com'}
                  ]}
                  ]} />} >
         {/*style={{maxWidth:"900px",margin:"auto",width:"90%"}}*/}

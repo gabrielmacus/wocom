@@ -253,7 +253,7 @@ export default function WButton(props:ButtonProps) {
   return (
     <OutsideClickHandler onOutsideClick={(e)=>props.onClickOutside?.(e)}>
       <Container style={props.style} className={props.className}>
-        <Hammer onTap={props.onClick} >
+        <Hammer onTap={props.onClick} options={{recognizers:{tap:{time:100}}}} >
           <StyledButton disabled={props.disabled} size={props.size} fgColor={props.fgColor} bgColor={props.bgColor} fgHoverColor={props.fgHoverColor} bgHoverColor={props.bgHoverColor}  styleType={props.styleType} selected={props.selected} type={props.type || 'button'} onMouseDown={props.onMouseDown} >
             <ButtonLabel withIcon={Boolean(props.iconLeft || props.iconRight)}>
               {props.iconLeft}
