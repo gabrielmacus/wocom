@@ -232,7 +232,10 @@ export default function WCanvas(props:WCanvasProps) {
   },[polygonLayers]);
 
   useEffect(()=>{
-    setPolygonLayers(props.polygons || {});
+    if(!_.isEqual(polygonLayers,props.polygons))
+    {
+      setPolygonLayers(props.polygons || {});
+    }
   },[props.polygons]);
 
   return (

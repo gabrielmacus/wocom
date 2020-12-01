@@ -85,7 +85,6 @@ export default function WSelectFieldOption(props:SelectFieldOptionProps) {
   return (
       <React.Fragment>
       <Hammer
-        options={{recognizers:{tap:{time:100}}}} 
         onTap={(event)=>{ props.onClick?.({value:props.value,label:props.label},event); context?.selectOption({value:props.value,label:props.label},event);}}
         >
         <Option 

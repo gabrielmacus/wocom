@@ -133,6 +133,9 @@ background: #212121;
 color: white;
 `;
 export const HeaderContainer = styled.div`
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+overflow:hidden;
 `;
 
 export const EmptyTableMessage = styled.td`
@@ -168,7 +171,7 @@ export const MainContainer = styled.div`
 position:relative;
 box-shadow: 0 0px 25px 0px rgba(0,0,0,0.25);
 border-radius:10px;
-overflow:hidden;
+
 `;
 
 

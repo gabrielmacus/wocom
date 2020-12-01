@@ -139,7 +139,7 @@ export default function SelectField(props:SelectFieldProps) {
         onOutsideClick={() => setOptionsOpened(false)}
         >
             <Select id={htmlId} >
-            <Hammer onTap={()=>{setOptionsOpened(!optionsOpened);}}  options={{recognizers:{tap:{time:100}}}} >
+            <Hammer onTap={()=>{setOptionsOpened(!optionsOpened);}}   >
                 <SelectPlaceholder >
                     {isSelectedEmpty()?
                     <React.Fragment>Seleccione una opción</React.Fragment>:
