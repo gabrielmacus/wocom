@@ -152,7 +152,15 @@ const App = () => {
               <button onClick={()=>{setCanvasLayer('f3')}}>F3</button>
               <button onClick={()=>{setCanvasLayer('f2')}}>F2</button>
 
-              <WCanvas polygons={{"f3":[ [[0,0.1],[0.1,0.1],[0.2,0.2],[0.1,0.2]]  ]}}  label={"Regions of interest"}  layers={[{type:'polygon',name:'f3'},{maxItems:1,type:'polygon',name:'f2',style:{stroke:'none',fill:'rgba(255,120,32,0.5)'}}]} currentLayer={canvasLayer} >
+              
+              {canvasLayer}
+
+              <WCanvas 
+              currentLayer={canvasLayer}
+              onLayerSelect={(layer)=>setCanvasLayer(layer)}
+              polygons={{"f3":[ [[0,0.1],[0.1,0.1],[0.2,0.2],[0.1,0.2]]  ]}}  
+              label={"Regions of interest"}  
+              layers={[{type:'polygon',name:'f3'},{maxItems:1,type:'polygon',name:'f2',style:{stroke:'none',fill:'rgba(255,120,32,0.5)'}}]}  >
                 <WImage src={"https://constructionreviewonline.com/wp-content/uploads/2019/12/2019-12-17_5df95c47afa15_Roads.jpg"}/>
               </WCanvas>
               <WButton type="submit" label="Aceptar"></WButton>

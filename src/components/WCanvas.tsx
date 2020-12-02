@@ -38,7 +38,8 @@ export interface WCanvasProps
   min?:number,
   children:React.ReactNode,
   label?:string,
-  customValidationStatus?: ValidationError[] | true | undefined
+  customValidationStatus?: ValidationError[] | true | undefined,
+  onLayerSelect?:(layer:string)=>any
 }
 
 
@@ -258,12 +259,12 @@ export default function WCanvas(props:WCanvasProps) {
                 />
                 {polygon.map((point,pointIndex)=>
                   {return <circle
-                    onMouseDown={()=>{ setPolygonDraw([]);setSelectedPolygonPoint({pointIndex, polygon:{polygonIndex,polygonLayer:Object.keys(polygonLayers)[layerIndex]} })}}
+                    onMouseDown={()=>{ props.onLayerSelect?.(Object.keys(polygonLayers)[layerIndex]); setPolygonDraw([]);setSelectedPolygonPoint({pointIndex, polygon:{polygonIndex,polygonLayer:Object.keys(polygonLayers)[layerIndex]} })}}
                     style={{cursor:'grab'}}
                     key={pointIndex}
                     cx={point[0] * 100}
                     cy={point[1] * 100}
-                    r="1"
+                    r="0.75"
                     fill="blue" />}
                 )}
               </React.Fragment>
@@ -271,10 +272,10 @@ export default function WCanvas(props:WCanvasProps) {
           )}
 
           {polygonDraw.length > 1 &&
-            <polyline style={{fill:'none',stroke:'black',strokeWidth:1}} points={polygonDraw.map(point => `${point[0] * 100},${point[1] * 100}`).join(" ")} />
+            <polyline style={{fill:'none',stroke:'black',strokeWidth:0.6}} points={polygonDraw.map(point => `${point[0] * 100},${point[1] * 100}`).join(" ")} />
           }
           {polygonDraw.map((point,index) =>
-            <circle onMouseDown={()=>{ setSelectedPolygonPoint({pointIndex:index})}} onDoubleClick={(event:React.MouseEvent)=>{onDoubleClickPolygonPoint(index,event)}} onClick={(event:React.MouseEvent)=>{onClickPolygonPoint(index,event)}} key={index} cx={point[0] * 100} cy={point[1] * 100} r="1" fill="red" />
+            <circle onMouseDown={()=>{ setSelectedPolygonPoint({pointIndex:index})}} onDoubleClick={(event:React.MouseEvent)=>{onDoubleClickPolygonPoint(index,event)}} onClick={(event:React.MouseEvent)=>{onClickPolygonPoint(index,event)}} key={index} cx={point[0] * 100} cy={point[1] * 100} r="0.75" fill="red" />
           )}
 
 
