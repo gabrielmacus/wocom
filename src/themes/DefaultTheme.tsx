@@ -17,6 +17,8 @@ export default {
 
   successBg:'#36d959',
   successFg:'white',
+  errorBg:'#e53935',
+  errorFg:'white',
 
   green:'#009C41',
   red:'#e53935'

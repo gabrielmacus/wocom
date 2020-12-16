@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 //
-import {File,renderToast,WFileUploadField,WTableColImage,WList,WMenu,WTableColActions,WPopup,WImage,WCanvas,WTitle,WSidemenu,WLayout,WButton,WTextField,WSelectField,WSelectFieldOption,WForm,WTable,WTableCol,WRatingField,WCheckRadio, DefaultTheme } from 'wocom'
+import {File,WLoading,renderPrompt,renderToast,WFileUploadField,WTableColImage,WList,WMenu,WTableColActions,WPopup,WImage,WCanvas,WTitle,WSidemenu,WLayout,WButton,WTextField,WSelectField,WSelectFieldOption,WForm,WTable,WTableCol,WRatingField,WCheckRadio, DefaultTheme } from 'wocom'
 import {ThemeProvider} from 'styled-components';
 import 'wocom/dist/index.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -24,6 +24,7 @@ const App = () => {
   const [canvasLayer,setCanvasLayer] = useState<string>("f2");
   const [popupOpened, setPopupOpened] = useState<boolean>(false);
   const [menuOpened, setMenuOpened] = useState<boolean>(false);
+  const [openLoading, setOpendLoading] = useState<boolean>(false);
   const [item,setItem] = useState<{language?:number,name?:string,interests:string[],files?:CustomFile[]}>({files:[
     {
       "id": "5fbfdc8600a7ba0ee0965eab",
@@ -86,6 +87,11 @@ const App = () => {
     }
 
     console.log(formData)*/
+  }
+
+  function showPrompt()
+  {
+    renderPrompt({title:'Confirmar eliminación',description:'¿Eliminar el usuario 1234?',yesButton:{fn:()=>{alert('Usuario eliminado')}}})
   }
 
   const [name, setName] = useState("")
@@ -169,7 +175,9 @@ const App = () => {
 
             {/*<WPagination page={19} padding={2} totalPages={20} /> */}
             {/* Agregar type para distinguir local y server pagination */}
-            <WTable selectionMode={'multiple'} error={loadError} onSort={(sort:string)=>{setSort(sort);loadData();}} paginationConfig={{onPage:loadData,totalPages:totalPages,pageSize:pageSize,page:page,type:'server'}} title="Posts" breakpoint={"767px"} items={items} loading={loadingItems}>
+            <WTable 
+            
+            selectionMode={'multiple'} error={loadError} onSort={(sort:string)=>{setSort(sort);loadData();}} paginationConfig={{onPage:loadData,totalPages:totalPages,pageSize:pageSize,page:page,type:'server'}} title="Posts" breakpoint={"767px"} items={items} loading={loadingItems}>
               {/* <WTableCol width="10%" header={""} prop={"check"} body={()=><WCheckRadio type={"radio"} />} /> */}
               <WTableColImage width="22%" header={"Image"} prop={"image"}  key={1}/>
               <WTableCol width="22%" sortable key={2} header="Name" body={(props)=>ProductNameCol(props?.value)} prop="name"></WTableCol>
@@ -192,12 +200,16 @@ const App = () => {
             </WTable>
             <br/><br/>
 
-            <WTable breakpoint={'768px'} title="Users" items={[{name:'John',surname:'Doe',age:25},{name:'John',surname:'Doe',age:25},{name:'John',surname:'Doe',age:25}]}>
+            <WTable 
+            footerLeft={<WButton onClick={()=>{setOpendLoading(true)}} label="DEMO A" />}
+            footerRight={<WButton onClick={()=>showPrompt()} label="DEMO B" />}
+            paginationConfig={{type:'local',pageSize:1}} breakpoint={'768px'} title="Users" items={[{name:'John',surname:'Doe',age:26},{name:'John',surname:'Doe',age:25},{name:'John',surname:'Doe',age:27}]}>
               <WTableCol width="33%" prop="name" header="Name" />
               <WTableCol width="33%" prop="surname" header="Surname" />
               <WTableCol width="33%" prop="age" header="Age" />
             </WTable>
-
+            
+            <WLoading text={'Eliminando usuario'} show={openLoading} />
             <br/> <br/>
 
 

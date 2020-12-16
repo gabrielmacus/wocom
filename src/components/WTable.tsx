@@ -22,6 +22,11 @@ export interface TableStyleProps
 {
 }
 
+export interface FooterStyleProps
+{
+  breakpoint?:string
+}
+
 export const Header =styled.th`
 text-align:left;
 padding-top: 16px;
@@ -144,7 +149,10 @@ text-align: center;
 font-weight: bold;
 height: 120px;
 color:#9e9e9e;
-& > div
+display:flex;
+align-items:center;
+justify-content:center;
+& > div > div
 {
     margin-top:8px;
 }
@@ -162,10 +170,34 @@ justify-content: center;
 background: rgba(0,0,0,0.65);
 `;
 
-export const Footer = styled.footer`
+
+export const FooterLeft = styled.div`
+`;
+
+export const FooterRight = styled.div`
+`;
+
+export const Footer = styled.footer<FooterStyleProps>`
 position:sticky;
 bottom:0;
+background: #e0e0e0;
+padding: 10px;
+border-bottom-left-radius: 10px;
+border-bottom-right-radius: 10px;
+display: flex;
+justify-content: space-between;
+
+@media all and (max-width:${props => props.breakpoint || '768px'})
+{
+  display:block;
+  ${FooterLeft}
+  {
+    margin-bottom:10px;
+  }
+}
+
 `;
+
 
 export const MainContainer = styled.div`
 position:relative;
@@ -216,7 +248,9 @@ interface TableProps
   onSort?:(sort:string)=>any,
   emptyTableMessage?:string,
   loading?:boolean,
-  footer?:React.ReactNode,
+  footerLeft?:React.ReactNode,
+  footerRight?:React.ReactNode,
+  footerBreakpoint?:string,
   paginationConfig?: PaginationConfig,
   error?:string
 }
@@ -374,8 +408,10 @@ export default function WTable(props:TableProps) {
               <Body >
                 <DataRow>
                   <EmptyTableMessage>
-                    <FontAwesomeIcon size="lg" icon={faExclamationTriangle} />
-                    <div>{props.error}</div>
+                    <div>
+                      <FontAwesomeIcon size="lg" icon={faExclamationTriangle} />
+                      <div>{props.error}</div>
+                    </div>
                   </EmptyTableMessage>
                 </DataRow>
               </Body>
@@ -399,8 +435,10 @@ export default function WTable(props:TableProps) {
                   )):
                   <DataRow>
                     <EmptyTableMessage>
-                      <FontAwesomeIcon size="lg" icon={faInbox} />
-                      <div>{props.emptyTableMessage || 'No hay elementos para mostrar'}</div>
+                      <div>
+                        <FontAwesomeIcon size="lg" icon={faInbox} />
+                        <div>{props.emptyTableMessage || 'No hay elementos para mostrar'}</div>
+                      </div>
                     </EmptyTableMessage>
                   </DataRow>
                 }
@@ -410,17 +448,31 @@ export default function WTable(props:TableProps) {
 
           </DataTable>
 
-          <Footer>
-            {!props.error && props.items.length > 0 && props.paginationConfig && getPaginationConfig().totalPages > 1 &&
+          {!props.error && props.items.length > 0 && props.paginationConfig && getPaginationConfig().totalPages > 1 &&
             <WPagination
               totalPages={getPaginationConfig().totalPages}
               page={getPaginationConfig().page}
               onClickPage={getPaginationConfig().onPage}
             />
-            }
+          }
 
-            {props.footer}
-          </Footer>
+          {(props.footerLeft || props.footerRight) && 
+            <Footer breakpoint={props.footerBreakpoint}>
+              
+              {props.footerLeft && 
+              <FooterLeft>
+                {props.footerLeft}
+              </FooterLeft>
+              }
+
+              {props.footerRight &&
+              <FooterRight>
+                {props.footerRight}
+              </FooterRight>
+              }
+            
+            </Footer>
+          }
         </TableContext.Provider>
       </TableContainer>
 
